@@ -13,31 +13,42 @@ namespace RemindBookBot
     {
         static void Main(string[] args)
         {
-            RemindBookBot girlBot = new RemindBookBot();
-            girlBot.testApiAsync();
-            Console.ReadLine();
+            RemindBookBotClient remindbot = new RemindBookBotClient();  //объявляем нового бота
+            remindbot.testApi(); //тестим связь
+            if (RemindBookBotClient.ApiCheck == 0) //если связь пашет(ApiCheck == 0) - пишет в консоль "здарова" и начинает работу
+            {
+                Console.WriteLine("RemindBook bot is running!");
+                RemindBookBotClient.ReceiveMessage();               //начинает принимать сообщения
+                Console.ReadLine();                 
+            }
+            else
+            {
+                Console.WriteLine("Something went wrong, bot doesn't work!");
+                Console.ReadLine();
+            }
         }
     }
-    class RemindBookBot
+    class RemindBookBotClient
     {
         private string token = "478223056:AAEV4aT7xSLBdWXrccEEkMDCdYRH_RzkwLw";
         static Telegram.Bot.TelegramBotClient Bot;
-        public async void testApiAsync()
+        public static int ApiCheck = 0;
+        public async void testApi()         //метод проверки связи данного бота по нашему токену
         {
             try
             {
                 Bot = new Telegram.Bot.TelegramBotClient(token);
                 var me = await Bot.GetMeAsync();
-                Console.WriteLine("Hello my name is " + me.FirstName);
-                Thread newThread = new Thread(RemindBookBot.ReceiveMessage);
-                newThread.Start();
+                ApiCheck = 0;
+                //Thread newThread = new Thread(RemindBookBotClient.ReceiveMessage);
+               //newThread.Start();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Hello my name is " + ex.Message);
+                ApiCheck = 1;
             }
         }
-        private static async void ReceiveMessage()
+        public static async void ReceiveMessage()
         {
             int checkname = 0;
             var lastMessageId = 0;
@@ -53,11 +64,18 @@ namespace RemindBookBot
                         Console.WriteLine(last.Message.Text);
                         switch (last.Message.Text.ToLower().Trim())
                         {
-                            case "/start":
-                            case "/info":
+                            case "/start":                            
                             case "hi":
                             case "hello":
                                 {
+                                    
+                                    Console.WriteLine("Получено сообщение!");
+                                    await Bot.SendTextMessageAsync(last.Message.From.Id, BotAnswers.SendFirstMessage());
+                                    break;
+                                }
+                           case "/info":
+                                {
+                                    
                                     await Bot.SendTextMessageAsync(last.Message.From.Id, BotAnswers.CommandsInfo());
                                     break;
                                 }

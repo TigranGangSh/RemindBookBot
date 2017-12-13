@@ -20,6 +20,19 @@ namespace RemindBookBot
 
         public static string InsertNoteName()=> $"What will be the name of your note?";
 
+        public static string SendFirstMessage ()
+        {
+            /*if (обращаемся к базе данных, есть ли имя юзера !=null)
+            {
+                string username = "" имя юзера из бд;  string.Format("{0:HH:mm:ss tt}", DateTime.Now)
+                return "Hello, " + username + "!"; 
+            }
+            else
+            {
+                return "Hi";
+            } */
+            return "1";
+        }
 
     }
 }

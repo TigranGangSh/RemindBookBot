@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RemindBookBot.Data.Model
+namespace RemindBookBot.Data.DBModel
 {
-    class Remind
+    class Date
     {
     }
 }

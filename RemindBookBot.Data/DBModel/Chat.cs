@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace RemindBookBot.Data.Model
 {
-    class Note
+    public class Chat
     {
+
+        public int Id { get; set; }
+        public User User { get; set; }
+        public string Name { get; set; }
+
+
     }
 }
